@@ -127,6 +127,11 @@
             const [results, setResults] = useState(null);
             const [editMode, setEditMode] = useState(false);
             const [studentResults, setStudentResults] = useState([]);
+            const [professorPassword, setProfessorPassword] = useState('');
+            const [showPasswordInput, setShowPasswordInput] = useState(false);
+            
+            // CONTRASEÑA DEL PROFESOR - CÁMBIALA AQUÍ
+            const PROFESSOR_PASSWORD = 'profesor123';
             const [caseData, setCaseData] = useState({
                 title: "Caso: Conflicto en el Equipo de Desarrollo",
                 content: `TechSolutions es una empresa de software con 50 empleados. El equipo de desarrollo está dividido: los desarrolladores senior quieren mantener las tecnologías actuales por estabilidad, mientras que los junior proponen migrar a tecnologías más modernas.
@@ -171,8 +176,19 @@ María debe tomar una decisión que mantenga al equipo unido y restaure la produ
                 if (type === 'student') {
                     setCurrentStudent(studentName);
                     setView('case');
-                } else {
+                } else if (type === 'professor') {
+                    setShowPasswordInput(true);
+                }
+            };
+            
+            const handleProfessorLogin = () => {
+                if (professorPassword === PROFESSOR_PASSWORD) {
                     setView('professor');
+                    setProfessorPassword('');
+                    setShowPasswordInput(false);
+                } else {
+                    alert('Contraseña incorrecta');
+                    setProfessorPassword('');
                 }
             };
 
@@ -234,6 +250,8 @@ María debe tomar una decisión que mantenga al equipo unido y restaure la produ
                 setAnswers({});
                 setSubmitted(false);
                 setResults(null);
+                setProfessorPassword('');
+                setShowPasswordInput(false);
             };
 
             if (view === 'login') {
@@ -243,13 +261,34 @@ María debe tomar una decisión que mantenga al equipo unido y restaure la produ
                             <h1 className="title">Gestión de las Relaciones en las Organizaciones</h1>
                             <p className="subtitle">Plataforma de Análisis de Casos</p>
                             <div className="space-y">
-                                <div>
-                                    <label className="label">Nombre del Estudiante</label>
-                                    <input type="text" value={studentName} onChange={(e) => setStudentName(e.target.value)} placeholder="Ingresa tu nombre completo" className="input" onKeyPress={(e) => e.key === 'Enter' && handleLogin('student')} />
-                                </div>
-                                <button onClick={() => handleLogin('student')} className="btn btn-primary" style={{width: '100%'}}>Ingresar como Estudiante</button>
-                                <div className="divider"><span>o</span></div>
-                                <button onClick={() => handleLogin('professor')} className="btn btn-secondary" style={{width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px'}}><Users /> Vista de Profesor</button>
+                                {!showPasswordInput ? (
+                                    <>
+                                        <div>
+                                            <label className="label">Nombre del Estudiante</label>
+                                            <input type="text" value={studentName} onChange={(e) => setStudentName(e.target.value)} placeholder="Ingresa tu nombre completo" className="input" onKeyPress={(e) => e.key === 'Enter' && handleLogin('student')} />
+                                        </div>
+                                        <button onClick={() => handleLogin('student')} className="btn btn-primary" style={{width: '100%'}}>Ingresar como Estudiante</button>
+                                        <div className="divider"><span>o</span></div>
+                                        <button onClick={() => handleLogin('professor')} className="btn btn-secondary" style={{width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px'}}><Users /> Vista de Profesor</button>
+                                    </>
+                                ) : (
+                                    <>
+                                        <div>
+                                            <label className="label">Contraseña de Profesor</label>
+                                            <input 
+                                                type="password" 
+                                                value={professorPassword} 
+                                                onChange={(e) => setProfessorPassword(e.target.value)} 
+                                                placeholder="Ingresa la contraseña" 
+                                                className="input" 
+                                                onKeyPress={(e) => e.key === 'Enter' && handleProfessorLogin()}
+                                                autoFocus
+                                            />
+                                        </div>
+                                        <button onClick={handleProfessorLogin} className="btn btn-secondary" style={{width: '100%'}}>Acceder</button>
+                                        <button onClick={() => {setShowPasswordInput(false); setProfessorPassword('');}} className="btn btn-gray" style={{width: '100%'}}>Cancelar</button>
+                                    </>
+                                )}
                             </div>
                         </div>
                     </div>

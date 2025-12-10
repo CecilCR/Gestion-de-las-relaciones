@@ -55,8 +55,8 @@
         .option-label:hover { background: #f8fafc; }
         
         .feedback-box { margin-top: 10px; padding: 10px; background: #f8fafc; border-radius: 6px; font-size: 14px; font-style: italic; color: #64748b; }
-        .correct-answer { color: #16a34a; font-weight: bold; }
-        .wrong-answer { color: #dc2626; font-weight: bold; }
+        .correct-answer { color: #16a34a; font-weight: bold; margin-bottom: 5px; }
+        .wrong-answer { color: #dc2626; font-weight: bold; margin-bottom: 5px; }
     </style>
 </head>
 <body>
@@ -65,68 +65,18 @@
     <script type="text/babel">
         const { useState, useEffect } = React;
 
-        // --- DATOS DEL NUEVO CASO (DATANOVA) ---
+        // --- DATOS DEL CASO (DATANOVA) ---
         const DEFAULT_CASE = {
             title: "Caso: DataNova y el Proyecto Aurora",
-            content: "DataNova es una empresa latinoamericana de soluciones tecnológicas que ha crecido rápidamente durante los últimos cinco años. Para mantenerse competitiva frente al aumento de startups en la región, la dirección decide lanzar “Aurora”, un servicio de analítica predictiva que integrará datos de distintas industrias. Debido a su complejidad, se conforma un equipo intergeneracional con perfiles complementarios.\n\nEl equipo está formado por:\n- Marta (62 años): Analista senior, metódica y orientada a la documentación.\n- Luis (45 años): Jefe de proyecto, mediador y eficiente.\n- Camila (29 años): UX, ágil y de comunicación informal.\n- Diego (23 años): Programador junior, adaptable pero inexperto en política interna.\n\nDurante la fase inicial del proyecto, la empresa impulsa la modalidad híbrida. Sin embargo, el equipo enfrenta diferentes expectativas generacionales sobre el trabajo. Marta prefiere formalidad y análisis previo. Camila y Diego buscan iteración rápida y canales digitales.\n\n Luis intenta conciliar ambos mundos, notando que las tensiones son culturales y no solo técnicas."
+            content: "DataNova es una empresa latinoamericana de soluciones tecnológicas que ha crecido rápidamente durante los últimos cinco años. Para mantenerse competitiva frente al aumento de startups en la región, la dirección decide lanzar “Aurora”, un servicio de analítica predictiva que integrará datos de distintas industrias. Debido a su complejidad, se conforma un equipo intergeneracional con perfiles complementarios.\n\nEl equipo está formado por:\n- Marta (62 años): Analista senior, metódica y orientada a la documentación.\n- Luis (45 años): Jefe de proyecto, mediador y eficiente.\n- Camila (29 años): UX, ágil y de comunicación informal.\n- Diego (23 años): Programador junior, adaptable pero inexperto en política interna.\n\nDurante la fase inicial del proyecto, la empresa impulsa la modalidad híbrida. Sin embargo, el equipo enfrenta diferentes expectativas generacionales sobre el trabajo. Marta prefiere formalidad y análisis previo. Camila y Diego buscan iteración rápida y canales digitales. Luis intenta conciliar ambos mundos, notando que las tensiones son culturales y no solo técnicas.\n\nA pesar de los roces, cuando logran sincronizarse, el proyecto avanza con fuerza gracias a la reducción de riesgos de Marta, la visión de Luis y la innovación de los jóvenes. El reto es transformar esta diversidad en un activo."
         };
 
-        // --- NUEVAS PREGUNTAS ---
         const DEFAULT_QUESTIONS = [
-            { 
-                id: 1, 
-                type: 'multiple', 
-                question: '¿Cuál es el principal desafío intergeneracional del caso?', 
-                options: [
-                    'Falta de recursos financieros.',                                       // Índice 0
-                    'Diferencias en ritmos, estilos de comunicación y expectativas.',       // Índice 1 (Correcta)
-                    'Poca preparación técnica de los miembros jóvenes.',                    // Índice 2
-                    'Exceso de supervisión por parte de la gerencia.'                       // Índice 3
-                ], 
-                correct: 1, 
-                feedback: 'El texto menciona explícitamente diferencias en ritmos, percepción de autoridad y formas de comunicar desacuerdos.' 
-            },
-            { 
-                id: 2, 
-                type: 'multiple', 
-                question: '¿Qué oportunidad puede aprovechar el equipo?', 
-                options: [
-                    'La uniformidad en las preferencias laborales.',                        // Índice 0
-                    'La complementariedad entre experiencia profunda y pensamiento innovador.', // Índice 1 (Correcta)
-                    'La posibilidad de delegar todo a la generación más joven.',            // Índice 2
-                    'Reducir las reuniones para evitar conflictos.'                         // Índice 3
-                ], 
-                correct: 1, 
-                feedback: 'El caso destaca que cuando se sincronizan, la experiencia de Marta reduce riesgos y la innovación de Camila/Diego genera valor.' 
-            },
-            { 
-                id: 3, 
-                type: 'multiple', 
-                question: '¿Cuál sería una acción efectiva de liderazgo para Luis?', 
-                options: [
-                    'Permitir que cada generación trabaje por separado.',                   // Índice 0
-                    'Evitar intervenir para que los conflictos se resuelvan solos.',        // Índice 1
-                    'Establecer espacios de alineamiento y métodos híbridos.',              // Índice 2 (Correcta)
-                    'Centralizar todas las decisiones en él.'                               // Índice 3
-                ], 
-                correct: 2, 
-                feedback: 'Luis debe integrar el rigor (Marta) con la agilidad (Camila/Diego) mediante un modelo de gestión híbrido.' 
-            },
-            { 
-                id: 4, 
-                type: 'truefalse', 
-                question: 'V/F: Las tensiones del equipo son exclusivamente consecuencia de la diferencia de edades.', 
-                options: [], 
-                correct: false, 
-                feedback: 'Falso. El caso menciona que las tensiones son también culturales, de estilos de trabajo y percepción de autoridad, no solo biológicas.' 
-            },
-            { 
-                id: 5, 
-                type: 'short', 
-                question: '¿Qué estrategia concreta propondrías para fortalecer la colaboración?', 
-                correctAnswers: ['mentoring', 'mentoría', 'feedback', 'comunicación', 'híbrido', 'integración', 'equipos mixtos', 'alineamiento'], 
-                feedback: 'Estrategias como el mentoring inverso, acuerdos de comunicación o sesiones de alineamiento cultural son respuestas válidas.' 
-            }
+            { id: 1, type: 'multiple', question: '¿Cuál es el principal desafío intergeneracional del caso?', options: ['Falta de recursos financieros.', 'Diferencias en ritmos, estilos de comunicación y expectativas.', 'Poca preparación técnica de los miembros jóvenes.', 'Exceso de supervisión por parte de la gerencia.'], correct: 1, feedback: 'El texto menciona explícitamente diferencias en ritmos, percepción de autoridad y formas de comunicar desacuerdos.' },
+            { id: 2, type: 'multiple', question: '¿Qué oportunidad puede aprovechar el equipo?', options: ['La uniformidad en las preferencias laborales.', 'La complementariedad entre experiencia profunda y pensamiento innovador.', 'La posibilidad de delegar todo a la generación más joven.', 'Reducir las reuniones para evitar conflictos.'], correct: 1, feedback: 'El caso destaca que cuando se sincronizan, la experiencia de Marta reduce riesgos y la innovación de Camila/Diego genera valor.' },
+            { id: 3, type: 'multiple', question: '¿Cuál sería una acción efectiva de liderazgo para Luis?', options: ['Permitir que cada generación trabaje por separado.', 'Evitar intervenir para que los conflictos se resuelvan solos.', 'Establecer espacios de alineamiento y métodos híbridos.', 'Centralizar todas las decisiones en él.'], correct: 2, feedback: 'Luis debe integrar el rigor (Marta) con la agilidad (Camila/Diego) mediante un modelo de gestión híbrido.' },
+            { id: 4, type: 'truefalse', question: 'V/F: Las tensiones del equipo son exclusivamente consecuencia de la diferencia de edades.', options: [], correct: false, feedback: 'Falso. El caso menciona que las tensiones son también culturales, de estilos de trabajo y percepción de autoridad, no solo biológicas.' },
+            { id: 5, type: 'short', question: '¿Qué estrategia concreta propondrías para fortalecer la colaboración?', correctAnswers: ['mentoring', 'mentoría', 'feedback', 'comunicación', 'híbrido', 'integración', 'equipos mixtos', 'alineamiento'], feedback: 'Estrategias como el mentoring inverso, acuerdos de comunicación o sesiones de alineamiento cultural son respuestas válidas.' }
         ];
 
         const App = () => {
@@ -181,7 +131,6 @@
                 }
             };
 
-            // Edición de preguntas
             const updateQ = (id, field, val) => {
                 setQuestions(questions.map(q => q.id === id ? {...q, [field]: val} : q));
             };
@@ -279,7 +228,6 @@
                                         Estás editando el contenido. Baja para ver las preguntas.
                                     </div>
                                     
-                                    {/* SECCIÓN 1: EDITAR CASO */}
                                     <div className="edit-section">
                                         <div className="edit-title">1. Texto del Caso</div>
                                         <label className="label">Título</label>
@@ -288,7 +236,6 @@
                                         <textarea className="textarea" rows="6" value={caseData.content} onChange={e=>setCaseData({...caseData, content:e.target.value})} />
                                     </div>
 
-                                    {/* SECCIÓN 2: EDITAR PREGUNTAS */}
                                     <div className="edit-section">
                                         <div className="edit-title">2. Preguntas del Examen</div>
                                         {questions.map((q, i) => (
@@ -347,8 +294,18 @@
                                     {lastResult.results.map((r, i) => (
                                         <div key={i} className="question-card" style={{borderColor: r.correct ? '#86efac' : '#fca5a5'}}>
                                             <p><strong>{i+1}. {r.question}</strong></p>
-                                            <p>Tu respuesta: {r.userAnswer.toString()}</p>
-                                            {!r.correct && <p className="wrong-answer">Incorrecto</p>}
+                                            <p style={{marginBottom: '5px'}}>Tu respuesta: {r.userAnswer.toString()}</p>
+                                            
+                                            {/* Lógica de Mensajes Feedback */}
+                                            {r.correct ? (
+                                                <p className="correct-answer">¡Excelente! Estás en lo correcto. 🎉</p>
+                                            ) : (
+                                                <div style={{marginBottom: '8px'}}>
+                                                    <p className="wrong-answer">Incorrecto</p>
+                                                    <p style={{color:'#dc2626', fontSize:'14px'}}>La respuesta correcta era: {r.correctAnswer}</p>
+                                                </div>
+                                            )}
+                                            
                                             <div className="feedback-box">💡 {r.feedback}</div>
                                         </div>
                                     ))}

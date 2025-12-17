@@ -3,91 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestión de las Relaciones en las Organizaciones</title>
+    <title>Caso 1: Conflicto Generacional (Roberto y Camila)</title>
+    
     <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: system-ui, -apple-system, 'Segoe UI', sans-serif; }
-        .container { max-width: 1200px; margin: 0 auto; padding: 24px; }
-        .card { background: white; border-radius: 16px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); padding: 32px; }
-        .btn { padding: 12px 24px; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; transition: all 0.3s; font-size: 16px; }
-        .btn:hover { transform: scale(1.05); }
-        .btn-primary { background: linear-gradient(135deg, #2563eb, #06b6d4); color: white; }
-        .btn-primary:hover { background: linear-gradient(135deg, #1d4ed8, #0891b2); }
-        .btn-secondary { background: linear-gradient(135deg, #9333ea, #ec4899); color: white; }
-        .btn-secondary:hover { background: linear-gradient(135deg, #7e22ce, #db2777); }
-        .btn-success { background: linear-gradient(135deg, #16a34a, #2563eb); color: white; }
+        body { font-family: system-ui, -apple-system, 'Segoe UI', sans-serif; background: #f9fafb; color: #1f2937; padding-bottom: 50px; }
+        .container { max-width: 1000px; margin: 0 auto; padding: 20px; }
+        .card { background: white; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); padding: 30px; }
+        .btn { padding: 10px 16px; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; font-size: 14px; transition: all 0.2s; }
+        .btn:hover { filter: brightness(1.1); transform: translateY(-1px); }
+        .btn-primary { background: #2563eb; color: white; }
+        .btn-secondary { background: #7c3aed; color: white; }
+        .btn-success { background: #16a34a; color: white; }
+        .btn-danger { background: #dc2626; color: white; }
         .btn-gray { background: #6b7280; color: white; }
-        .btn-gray:hover { background: #4b5563; }
-        .btn-green { background: #16a34a; color: white; }
-        .btn-green:hover { background: #15803d; }
-        .btn-blue { background: #2563eb; color: white; }
-        .btn-blue:hover { background: #1d4ed8; }
-        .input { width: 100%; padding: 12px 16px; border: 2px solid #d1d5db; border-radius: 8px; font-size: 16px; }
-        .input:focus { outline: none; border-color: #2563eb; }
-        .textarea { width: 100%; padding: 12px 16px; border: 2px solid #d1d5db; border-radius: 8px; font-size: 16px; resize: vertical; }
-        .textarea:focus { outline: none; border-color: #2563eb; }
-        .login-screen { min-height: 100vh; background: linear-gradient(135deg, #9333ea, #2563eb, #06b6d4); display: flex; align-items: center; justify-content: center; padding: 24px; }
-        .login-card { max-width: 450px; width: 100%; }
-        .title { font-size: 28px; font-weight: 700; text-align: center; margin-bottom: 8px; color: #1f2937; }
-        .subtitle { text-align: center; color: #6b7280; margin-bottom: 32px; }
-        .label { display: block; font-size: 14px; font-weight: 500; color: #374151; margin-bottom: 8px; }
-        .divider { text-align: center; margin: 24px 0; position: relative; }
-        .divider::before { content: ''; position: absolute; top: 50%; left: 0; right: 0; height: 1px; background: #d1d5db; }
-        .divider span { position: relative; background: white; padding: 0 12px; color: #6b7280; }
-        .screen-bg { min-height: 100vh; background: #f9fafb; padding: 24px; }
-        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; flex-wrap: wrap; gap: 16px; }
-        .header-title { font-size: 28px; font-weight: 700; color: #1f2937; display: flex; align-items: center; gap: 8px; }
-        .button-group { display: flex; gap: 12px; flex-wrap: wrap; }
-        .table { width: 100%; border-collapse: collapse; margin-top: 24px; }
-        .table thead { background: #f3f4f6; }
-        .table th, .table td { padding: 12px 16px; text-align: left; border-bottom: 1px solid #e5e7eb; }
-        .table th { font-weight: 600; color: #374151; font-size: 14px; }
-        .table td { color: #1f2937; font-size: 14px; }
-        .table tbody tr:hover { background: #f9fafb; }
-        .badge { display: inline-block; padding: 4px 12px; border-radius: 9999px; font-size: 12px; font-weight: 600; }
-        .badge-blue { background: #dbeafe; color: #1e40af; }
+        .btn-outline { background: white; border: 1px solid #d1d5db; color: #374151; }
+        .input, .textarea, .select { width: 100%; padding: 10px; border: 1px solid #d1d5db; border-radius: 6px; font-size: 14px; margin-bottom: 10px; }
+        .label { display: block; font-size: 12px; font-weight: 700; color: #4b5563; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .login-screen { min-height: 100vh; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #4f46e5, #0ea5e9); }
+        .login-card { background: white; padding: 40px; border-radius: 16px; width: 100%; max-width: 400px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+        .edit-section { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 20px; margin-bottom: 20px; }
+        .edit-title { font-size: 18px; font-weight: 700; margin-bottom: 15px; color: #1e293b; display: flex; align-items: center; gap: 8px; }
+        .question-editor { background: white; border: 1px solid #e5e7eb; padding: 15px; border-radius: 8px; margin-bottom: 15px; }
+        .question-editor-header { font-weight: bold; margin-bottom: 10px; color: #2563eb; border-bottom: 1px solid #f1f5f9; padding-bottom: 5px; }
+        .table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        .table th { text-align: left; padding: 12px; background: #f1f5f9; color: #64748b; font-size: 13px; font-weight: 700; }
+        .table td { padding: 12px; border-bottom: 1px solid #f1f5f9; }
+        .badge { padding: 4px 8px; border-radius: 12px; font-size: 12px; font-weight: 700; }
         .badge-green { background: #dcfce7; color: #166534; }
-        .badge-yellow { background: #fef3c7; color: #92400e; }
         .badge-red { background: #fee2e2; color: #991b1b; }
-        .case-box { background: linear-gradient(135deg, #f3e8ff, #dbeafe); padding: 24px; border-radius: 12px; margin-bottom: 32px; }
-        .case-title { font-size: 24px; font-weight: 700; color: #1f2937; margin-bottom: 16px; }
-        .case-content { color: #374151; line-height: 1.75; white-space: pre-line; }
-        .question-box { background: #f9fafb; padding: 24px; border-radius: 12px; border-left: 4px solid #2563eb; margin-bottom: 24px; }
-        .question-text { font-weight: 600; color: #1f2937; margin-bottom: 16px; }
-        .option { display: flex; align-items: center; gap: 12px; padding: 12px; background: white; border-radius: 8px; cursor: pointer; margin-bottom: 8px; }
-        .option:hover { background: #eff6ff; }
-        .radio { width: 16px; height: 16px; }
-        .result-box { background: linear-gradient(135deg, #3b82f6, #9333ea); color: white; padding: 32px; border-radius: 12px; text-align: center; margin-bottom: 32px; }
-        .result-score { font-size: 48px; font-weight: 700; margin-bottom: 8px; }
-        .result-label { font-size: 20px; }
-        .answer-box { padding: 24px; border-radius: 12px; border-left: 4px solid; margin-bottom: 24px; }
-        .answer-correct { background: #f0fdf4; border-color: #16a34a; }
-        .answer-incorrect { background: #fef2f2; border-color: #dc2626; }
-        .answer-header { display: flex; justify-content: space-between; align-items: start; margin-bottom: 12px; gap: 16px; }
-        .answer-status { padding: 4px 12px; border-radius: 9999px; font-size: 12px; font-weight: 700; white-space: nowrap; }
-        .status-correct { background: #bbf7d0; color: #166534; }
-        .status-incorrect { background: #fecaca; color: #991b1b; }
-        .feedback { color: #6b7280; font-style: italic; margin-top: 8px; }
-        .student-info { margin-bottom: 24px; }
-        .student-label { font-size: 12px; font-weight: 600; color: #9333ea; margin-bottom: 4px; }
-        .student-name { font-size: 18px; font-weight: 700; color: #1f2937; }
-        .section-title { font-size: 20px; font-weight: 700; color: #1f2937; margin-bottom: 16px; }
-        .info-box { background: linear-gradient(135deg, #faf5ff, #eff6ff); padding: 16px; border-radius: 8px; margin-bottom: 24px; }
-        .info-text { color: #1f2937; font-weight: 600; }
-        .note-box { background: #eff6ff; padding: 16px; border-radius: 8px; color: #1e40af; font-size: 14px; }
-        .empty-state { text-align: center; padding: 48px; color: #6b7280; }
-        .flex-between { display: flex; justify-content: space-between; align-items: center; }
-        .space-y { display: flex; flex-direction: column; gap: 16px; }
-        .icon { display: inline-flex; vertical-align: middle; }
-        @media (max-width: 768px) {
-            .header { flex-direction: column; align-items: stretch; }
-            .button-group { flex-direction: column; }
-            .table { font-size: 12px; }
-            .answer-header { flex-direction: column; }
-        }
+        .case-content { line-height: 1.6; color: #334155; white-space: pre-line; margin-bottom: 30px; padding: 20px; background: #eff6ff; border-radius: 8px; border-left: 4px solid #3b82f6; }
+        .question-card { margin-bottom: 20px; padding: 20px; border: 1px solid #e2e8f0; border-radius: 8px; }
+        .option-label { display: flex; align-items: center; gap: 10px; padding: 10px; border: 1px solid #e2e8f0; border-radius: 6px; margin-bottom: 8px; cursor: pointer; transition: background 0.2s; }
+        .option-label:hover { background: #f8fafc; }
+        .feedback-box { margin-top: 10px; padding: 10px; background: #f8fafc; border-radius: 6px; font-size: 14px; font-style: italic; color: #64748b; }
+        .correct-answer { color: #16a34a; font-weight: bold; margin-bottom: 5px; }
+        .wrong-answer { color: #dc2626; font-weight: bold; margin-bottom: 5px; }
     </style>
 </head>
 <body>
@@ -95,401 +50,236 @@
     
     <script type="text/babel">
         const { useState, useEffect } = React;
-        
-        const storage = {
-            async get(key) {
-                try {
-                    const data = localStorage.getItem(key);
-                    return data ? { key, value: data } : null;
-                } catch (e) { return null; }
-            },
-            async set(key, value) {
-                try {
-                    localStorage.setItem(key, value);
-                    return { key, value };
-                } catch (e) { return null; }
-            }
+
+        // --- 🔐 CONFIGURACIÓN DE SEGURIDAD ---
+        const STUDENT_PASSWORD = "CONFLICTO"; // <--- CONTRASEÑA DE CLASE
+
+        // --- DATOS DEL CASO ROBERTO Y CAMILA ---
+        const DEFAULT_CASE = {
+            title: "Caso: Choque Generacional en Logística Andina",
+            content: "Roberto (58 años) es el Jefe de Logística en una empresa de transporte tradicional. Lleva 30 años en la compañía y valora la jerarquía, los procesos manuales verificados y las reuniones presenciales para 'mirar a los ojos'.\n\nRecientemente, la empresa contrató a Camila (26 años) como Analista de Procesos Digitales para modernizar el área. Camila propone automatizar el inventario usando una App en la nube, eliminando el papeleo físico que Roberto atesora.\n\nEl Conflicto: Roberto siente que Camila no respeta su experiencia y que quiere 'cambiar todo por capricho tecnológico'. Camila siente que Roberto es un 'tapón' que frena la innovación por miedo a no entender la tecnología. En la última reunión, Roberto gritó: '¡Aquí las cosas se hacen bien, no rápido!', a lo que Camila respondió enviando un correo al Gerente General con copia a Roberto exponiendo la ineficiencia del área."
         };
-        if (!window.storage) window.storage = storage;
 
-        const Download = () => (<svg className="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>);
-        const Edit2 = () => (<svg className="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>);
-        const X = () => (<svg className="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>);
-        const Users = () => (<svg className="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>);
-        const BarChart3 = () => (<svg className="icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M3 3v18h18"/><rect x="7" y="12" width="3" height="9"/><rect x="14" y="8" width="3" height="13"/></svg>);
+        const DEFAULT_QUESTIONS = [
+            { 
+                id: 1, 
+                type: 'multiple', 
+                question: '¿Cuál es la raíz principal del conflicto entre Roberto y Camila?', 
+                options: [
+                    'La diferencia de edad biológica.', 
+                    'La falta de presupuesto para la App.', 
+                    'Diferentes modelos mentales sobre el trabajo y la comunicación.', 
+                    'Mala fe por parte de Camila.'
+                ], 
+                correct: 2, 
+                feedback: 'El problema no es solo la edad, sino cómo cada uno interpreta el "buen trabajo": Roberto valora la seguridad/proceso y Camila la agilidad/tecnología.' 
+            },
+            { 
+                id: 2, 
+                type: 'truefalse', 
+                question: 'V/F: La solución ideal es que Roberto se jubile para dejar paso a la tecnología.', 
+                options: [], 
+                correct: false, 
+                feedback: 'Falso. La solución ideal es integrar la experiencia de Roberto (criterio) con la técnica de Camila (herramientas).' 
+            },
+            { 
+                id: 3, 
+                type: 'multiple', 
+                question: '¿Qué técnica de gestión sería más adecuada para resolver esto?', 
+                options: [
+                    'Despedir a uno de los dos.', 
+                    'Mentoring Inverso (Camila enseña Tech, Roberto enseña Criterio).', 
+                    'Separarlos en oficinas diferentes.', 
+                    'Ignorar el conflicto hasta que se acostumbren.'
+                ], 
+                correct: 1, 
+                feedback: 'El Mentoring Inverso permite valorar a ambos: valida la experiencia del senior y aprovecha el conocimiento digital del junior.' 
+            },
+            { 
+                id: 4, 
+                type: 'short', 
+                question: '¿Qué emoción predomina en Roberto ante los cambios de Camila?', 
+                correctAnswers: ['miedo', 'temor', 'inseguridad', 'amenaza', 'desconfianza'], 
+                feedback: 'Roberto siente miedo a ser irrelevante o a que sus métodos seguros sean descartados.' 
+            }
+        ];
 
+        // --- APLICACIÓN PRINCIPAL ---
         const App = () => {
             const [view, setView] = useState('login');
+            const [adminPassword, setAdminPassword] = useState('');
+            const [inputStudentPass, setInputStudentPass] = useState('');
             const [studentName, setStudentName] = useState('');
-            const [currentStudent, setCurrentStudent] = useState(null);
+            
+            // Datos
+            const [caseData, setCaseData] = useState(DEFAULT_CASE);
+            const [questions, setQuestions] = useState(DEFAULT_QUESTIONS);
             const [answers, setAnswers] = useState({});
             const [submitted, setSubmitted] = useState(false);
-            const [results, setResults] = useState(null);
-            const [editMode, setEditMode] = useState(false);
             const [studentResults, setStudentResults] = useState([]);
-            const [professorPassword, setProfessorPassword] = useState('');
-            const [showPasswordInput, setShowPasswordInput] = useState(false);
-            
-            // --- 🔐 CONFIGURACIÓN DE SEGURIDAD ---
-        const STUDENT_PASSWORD = "AURORA"; // <--- CONTRASEÑA PARA LA CLASE
-            
-            // CORRECCIÓN APLICADA AQUÍ: Definición correcta del estado del caso
-            const [caseData, setCaseData] = useState({
-                title: "Caso: Choque Generacional en Logística Andina",
-                content: `Logística y Distribución Andina S.A. es una empresa tradicional de repuestos con 120 empleados. Ante una oportunidad de venta clave con una minera, surge un conflicto crítico.
-
-Roberto, el Gerente Comercial (58 años), insiste en realizar un viaje de tres días para una visita presencial y almuerzo, defendiendo el "trato humano" y la jerarquía. Por otro lado, Camila, la nueva Analista Digital (25 años), propone cancelar el viaje por ineficiente y realizar una demo virtual, basándose en que el cliente es un perfil joven y tecnológico.
-
-La discusión en la junta escala a ofensas personales: Camila tilda los métodos de Roberto de "obsoletos" y Roberto la acusa de "falta de respeto" y arrogancia. El Director General debe intervenir para asegurar la venta y evitar una fractura en el equipo comercial.`
-            });
-
-            const [questions] = useState([
-                { 
-                    id: 1, 
-                    type: 'multiple', 
-                    question: '¿Cuál es la raíz principal del conflicto entre Roberto y Camila?', 
-                    options: ['Disputa por el presupuesto de viáticos', 'Choque de paradigmas generacionales sobre cómo hacer negocios', 'Competencia por el puesto de Gerente Comercial', 'Falta de herramientas tecnológicas en la empresa'], 
-                    correct: 1, 
-                    feedback: 'El conflicto no es solo técnico, sino un choque de visiones: Roberto valora la relación personal y la tradición, mientras que Camila prioriza la eficiencia y la digitalización.' 
-                },
-                { 
-                    id: 2, 
-                    type: 'truefalse', 
-                    question: 'Dar la razón completamente a uno de los dos es la estrategia más efectiva para el largo plazo.', 
-                    correct: false, 
-                    feedback: 'Falso. Validar solo a uno alienaría a la otra parte (fuga de talento joven o desmotivación del senior). La solución ideal debe integrar ambas visiones.' 
-                },
-                { 
-                    id: 3, 
-                    type: 'short', 
-                    question: 'Menciona una técnica de gestión para que ambos empleados aprendan del otro.', 
-                    correctAnswers: ['mentoring inverso', 'mentoria inversa', 'mentoría inversa', 'trabajo en pares', 'equipos mixtos'], 
-                    feedback: 'El "Mentoring Inverso" es ideal: Camila enseña herramientas digitales a Roberto, y Roberto enseña negociación y habilidades relacionales a Camila.' 
-                },
-                { 
-                    id: 4, 
-                    type: 'multiple', 
-                    question: '¿Qué error de comunicación cometió Camila al presentar su propuesta?', 
-                    options: ['No tener los datos a mano', 'Usar un lenguaje técnico incomprensible', 'Invalidar la experiencia de Roberto llamándola "ineficiente" y "vieja"', 'Proponer una solución demasiado costosa'], 
-                    correct: 2, 
-                    feedback: 'Aunque sus datos eran correctos, Camila falló en las habilidades blandas al atacar la identidad profesional de Roberto en lugar de complementar su propuesta.' 
-                },
-                { 
-                    id: 5, 
-                    type: 'truefalse', 
-                    question: 'En el contexto latinoamericano del caso, el "capital relacional" de Roberto sigue siendo un activo valioso.', 
-                    correct: true, 
-                    feedback: 'Verdadero. En la cultura de negocios regional, la confianza personal y las redes de contacto (que Roberto posee) siguen siendo determinantes para cerrar grandes contratos.' 
-                }
-            ]);
+            const [editMode, setEditMode] = useState(false);
 
             useEffect(() => {
-                const loadData = async () => {
-                    try {
-                        const savedResults = await window.storage.get('student-results');
-                        if (savedResults) setStudentResults(JSON.parse(savedResults.value));
-                    } catch (error) { console.log('No previous results'); }
-                };
-                loadData();
+                const savedRes = localStorage.getItem('student-results-c1'); // Clave única para Caso 1
+                if (savedRes) setStudentResults(JSON.parse(savedRes));
+                const savedCase = localStorage.getItem('custom-case-c1');
+                if (savedCase) setCaseData(JSON.parse(savedCase));
+                const savedQs = localStorage.getItem('custom-questions-c1');
+                if (savedQs) setQuestions(JSON.parse(savedQs));
             }, []);
 
-            const saveResult = async (studentName, answers, results) => {
-                const newResult = { name: studentName, date: new Date().toISOString(), answers, results };
-                const updatedResults = [...studentResults, newResult];
-                setStudentResults(updatedResults);
-                try {
-                    await window.storage.set('student-results', JSON.stringify(updatedResults));
-                } catch (error) { console.error('Error:', error); }
+            // --- FUNCIONES ---
+            const saveChanges = () => {
+                localStorage.setItem('custom-case-c1', JSON.stringify(caseData));
+                localStorage.setItem('custom-questions-c1', JSON.stringify(questions));
+                setEditMode(false);
+                alert('✅ Cambios guardados.');
             };
 
-            const handleLogin = (type) => {
-                if (type === 'student' && !studentName.trim()) {
-                    alert('Por favor ingresa tu nombre');
-                    return;
-                }
-                if (type === 'student') {
-                    setCurrentStudent(studentName);
-                    setView('case');
-                } else if (type === 'professor') {
-                    setShowPasswordInput(true);
+            const restoreDefaults = () => {
+                if(confirm('¿Restaurar todo?')) {
+                    setCaseData(DEFAULT_CASE);
+                    setQuestions(DEFAULT_QUESTIONS);
+                    localStorage.removeItem('custom-case-c1');
+                    localStorage.removeItem('custom-questions-c1');
+                    setEditMode(false);
                 }
             };
             
-            const handleProfessorLogin = () => {
-                if (professorPassword === PROFESSOR_PASSWORD) {
-                    setView('professor');
-                    setProfessorPassword('');
-                    setShowPasswordInput(false);
-                } else {
-                    alert('Contraseña incorrecta');
-                    setProfessorPassword('');
+            const clearData = () => {
+                if(confirm('¿Borrar notas?')) {
+                    setStudentResults([]);
+                    localStorage.removeItem('student-results-c1');
                 }
             };
 
-            const handleAnswerChange = (questionId, value) => {
-                setAnswers({ ...answers, [questionId]: value });
+            const updateQ = (id, field, val) => setQuestions(questions.map(q => q.id === id ? {...q, [field]: val} : q));
+            
+            const updateOpt = (qId, idx, val) => {
+                const newQs = questions.map(q => { if(q.id !== qId) return q; const n = [...q.options]; n[idx] = val; return {...q, options: n}; });
+                setQuestions(newQs);
             };
 
-            const checkAnswer = (question, userAnswer) => {
-                if (question.type === 'multiple') return userAnswer === question.correct;
-                else if (question.type === 'truefalse') return userAnswer === question.correct;
-                else if (question.type === 'short') {
-                    if (!userAnswer) return false;
-                    const normalizedAnswer = userAnswer.toLowerCase().trim();
-                    return question.correctAnswers.some(correct => normalizedAnswer.includes(correct.toLowerCase()));
-                }
-                return false;
-            };
-
-            const handleSubmit = () => {
-                const allAnswered = questions.every(q => answers[q.id] !== undefined && answers[q.id] !== '');
-                if (!allAnswered) {
-                    alert('Por favor responde todas las preguntas antes de enviar');
-                    return;
-                }
-                const calculatedResults = questions.map(q => ({
-                    question: q.question,
-                    userAnswer: answers[q.id],
-                    correct: checkAnswer(q, answers[q.id]),
-                    feedback: q.feedback,
-                    correctAnswer: q.type === 'multiple' ? q.options[q.correct] : q.type === 'truefalse' ? (q.correct ? 'Verdadero' : 'Falso') : q.correctAnswers.join(', ')
-                }));
-                setResults(calculatedResults);
+            const submitExam = () => {
+                if(questions.some(q => answers[q.id] === undefined)) return alert('Responde todas las preguntas.');
+                const results = questions.map(q => {
+                    let isCorrect = false;
+                    if(q.type === 'multiple' || q.type === 'truefalse') isCorrect = answers[q.id] === q.correct;
+                    if(q.type === 'short') isCorrect = q.correctAnswers.some(a => answers[q.id].toLowerCase().includes(a.toLowerCase()));
+                    return { ...q, userAnswer: answers[q.id], correct: isCorrect };
+                });
+                const updated = [...studentResults, { name: studentName, date: new Date(), results }];
+                setStudentResults(updated);
+                localStorage.setItem('student-results-c1', JSON.stringify(updated));
                 setSubmitted(true);
-                saveResult(currentStudent, answers, calculatedResults);
             };
 
-            const exportResults = () => {
-                const csv = [
-                    ['Nombre', 'Fecha', 'Puntaje', 'Correctas', 'Total'].join(','),
-                    ...studentResults.map(r => {
-                        const correct = r.results.filter(res => res.correct).length;
-                        const total = r.results.length;
-                        const date = new Date(r.date).toLocaleString('es-PE');
-                        return [r.name, date, `${correct}/${total}`, correct, total].join(',');
-                    })
-                ].join('\n');
-                const blob = new Blob([csv], { type: 'text/csv' });
-                const url = URL.createObjectURL(blob);
+            const downloadCSV = () => {
+                const csv = "Nombre,Nota\n" + studentResults.map(r => `${r.name},${r.results.filter(x=>x.correct).length}/${r.results.length}`).join('\n');
                 const a = document.createElement('a');
-                a.href = url;
-                a.download = 'resultados_estudiantes.csv';
-                a.click();
+                a.href = 'data:text/csv;charset=utf-8,' + encodeURI(csv);
+                a.download = 'notas_caso1.csv'; a.click();
             };
 
-            const resetApp = () => {
-                setView('login');
-                setStudentName('');
-                setCurrentStudent(null);
-                setAnswers({});
-                setSubmitted(false);
-                setResults(null);
-                setProfessorPassword('');
-                setShowPasswordInput(false);
+            // --- LÓGICA DE LOGIN CON CONTRASEÑA ---
+            const handleStudentLogin = () => {
+                if(!studentName) return alert('Escribe tu nombre');
+                if(inputStudentPass.toUpperCase() !== STUDENT_PASSWORD.toUpperCase()) {
+                    return alert('⚠️ Código de sesión incorrecto. Solicítalo al profesor.');
+                }
+                setView('exam');
             };
 
-            if (view === 'login') {
+            // --- VISTAS ---
+            if(view === 'login') {
                 return (
                     <div className="login-screen">
-                        <div className="card login-card">
-                            <h1 className="title">Gestión de las Relaciones en las Organizaciones</h1>
-                            <p className="subtitle">Plataforma de Análisis de Casos</p>
-                            <div className="space-y">
-                                {!showPasswordInput ? (
-                                    <>
-                                        <div>
-                                            <label className="label">Nombre del Estudiante</label>
-                                            <input type="text" value={studentName} onChange={(e) => setStudentName(e.target.value)} placeholder="Ingresa tu nombre completo" className="input" onKeyPress={(e) => e.key === 'Enter' && handleLogin('student')} />
-                                        </div>
-                                        <button onClick={() => handleLogin('student')} className="btn btn-primary" style={{width: '100%'}}>Ingresar como Estudiante</button>
-                                        <div className="divider"><span>o</span></div>
-                                        <button onClick={() => handleLogin('professor')} className="btn btn-secondary" style={{width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px'}}><Users /> Vista de Profesor</button>
-                                    </>
-                                ) : (
-                                    <>
-                                        <div>
-                                            <label className="label">Contraseña de Profesor</label>
-                                            <input 
-                                                type="password" 
-                                                value={professorPassword} 
-                                                onChange={(e) => setProfessorPassword(e.target.value)} 
-                                                placeholder="Ingresa la contraseña" 
-                                                className="input" 
-                                                onKeyPress={(e) => e.key === 'Enter' && handleProfessorLogin()}
-                                                autoFocus
-                                            />
-                                        </div>
-                                        <button onClick={handleProfessorLogin} className="btn btn-secondary" style={{width: '100%'}}>Acceder</button>
-                                        <button onClick={() => {setShowPasswordInput(false); setProfessorPassword('');}} className="btn btn-gray" style={{width: '100%'}}>Cancelar</button>
-                                    </>
-                                )}
-                            </div>
+                        <div className="login-card">
+                            <h2 style={{textAlign:'center', marginBottom:'20px'}}>🔐 Acceso Restringido (Caso 1)</h2>
+                            
+                            <label className="label">Nombre del Estudiante</label>
+                            <input className="input" placeholder="Nombre y Apellido" value={studentName} onChange={e=>setStudentName(e.target.value)} />
+                            
+                            <label className="label" style={{marginTop:'10px'}}>Código de la Sesión</label>
+                            <input className="input" placeholder="Código dado por el profesor" value={inputStudentPass} onChange={e=>setInputStudentPass(e.target.value)} />
+                            
+                            <button className="btn btn-primary" style={{width:'100%', justifyContent:'center', marginTop:'15px'}} onClick={handleStudentLogin}>Ingresar al Examen</button>
+                            
+                            <div style={{margin:'20px 0', borderTop:'1px solid #e2e8f0'}}></div>
+                            
+                            <label className="label">Profesor</label>
+                            <input type="password" className="input" placeholder="Contraseña Admin" value={adminPassword} onChange={e=>setAdminPassword(e.target.value)} />
+                            <button className="btn btn-secondary" style={{width:'100%', justifyContent:'center'}} onClick={()=>{if(adminPassword==='profesor123') setView('admin'); else alert('Incorrecto');}}>Panel Profesor</button>
                         </div>
                     </div>
                 );
             }
 
-            if (view === 'professor') {
+            if(view === 'admin') {
                 return (
-                    <div className="screen-bg">
-                        <div className="container">
-                            <div className="card">
-                                <div className="header">
-                                    <h1 className="header-title"><BarChart3 /> Panel de Profesor</h1>
-                                    <div className="button-group">
-                                        <button onClick={() => setEditMode(!editMode)} className={`btn ${editMode ? 'btn-gray' : 'btn-blue'}`} style={{display: 'flex', alignItems: 'center', gap: '8px'}}>{editMode ? <X /> : <Edit2 />}{editMode ? 'Cancelar' : 'Editar'}</button>
-                                        <button onClick={exportResults} className="btn btn-green" disabled={studentResults.length === 0} style={{display: 'flex', alignItems: 'center', gap: '8px'}}><Download /> Exportar</button>
-                                        <button onClick={resetApp} className="btn btn-gray">Salir</button>
-                                    </div>
-                                </div>
-                                {editMode ? (
-                                    <div className="space-y">
-                                        <div>
-                                            <label className="label">Título del Caso</label>
-                                            <input type="text" value={caseData.title} onChange={(e) => setCaseData({...caseData, title: e.target.value})} className="input" />
-                                        </div>
-                                        <div>
-                                            <label className="label">Contenido del Caso</label>
-                                            <textarea value={caseData.content} onChange={(e) => setCaseData({...caseData, content: e.target.value})} rows={10} className="textarea" />
-                                        </div>
-                                        <div className="note-box">💡 <strong>Nota:</strong> Los cambios se aplican inmediatamente.</div>
-                                    </div>
-                                ) : (
-                                    <div className="space-y">
-                                        <div className="info-box">
-                                            <p className="info-text">Total de estudiantes: {studentResults.length}</p>
-                                        </div>
-                                        <div style={{overflowX: 'auto'}}>
-                                            <table className="table">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Estudiante</th>
-                                                        <th>Fecha</th>
-                                                        <th style={{textAlign: 'center'}}>Puntaje</th>
-                                                        <th style={{textAlign: 'center'}}>%</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    {studentResults.map((result, idx) => {
-                                                        const correct = result.results.filter(r => r.correct).length;
-                                                        const total = result.results.length;
-                                                        const percentage = ((correct / total) * 100).toFixed(0);
-                                                        return (
-                                                            <tr key={idx}>
-                                                                <td>{result.name}</td>
-                                                                <td>{new Date(result.date).toLocaleString('es-PE')}</td>
-                                                                <td style={{textAlign: 'center'}}><span className="badge badge-blue">{correct}/{total}</span></td>
-                                                                <td style={{textAlign: 'center'}}><span className={`badge ${percentage >= 70 ? 'badge-green' : percentage >= 50 ? 'badge-yellow' : 'badge-red'}`}>{percentage}%</span></td>
-                                                            </tr>
-                                                        );
-                                                    })}
-                                                </tbody>
-                                            </table>
-                                            {studentResults.length === 0 && (<div className="empty-state">No hay resultados registrados aún</div>)}
-                                        </div>
-                                    </div>
-                                )}
+                    <div className="container">
+                        <div className="card">
+                            <div style={{display:'flex', justifyContent:'space-between', marginBottom:'20px'}}>
+                                <h1>👨‍🏫 Panel Profesor (Caso 1)</h1>
+                                <button className="btn btn-gray" onClick={()=>setView('login')}>Salir</button>
                             </div>
+                            
+                            <div style={{background:'#e0f2fe', padding:'15px', borderRadius:'8px', marginBottom:'20px', border:'1px solid #bae6fd', color:'#0369a1'}}>
+                                🔑 <strong>Código actual para alumnos:</strong> <span style={{fontSize:'1.2em', fontWeight:'bold'}}>{STUDENT_PASSWORD}</span>
+                            </div>
+
+                            {!editMode ? (
+                                <div>
+                                    <div style={{display:'flex', gap:'10px', marginBottom:'20px', flexWrap:'wrap'}}>
+                                        <button className="btn btn-primary" onClick={()=>setEditMode(true)}>✏️ Editar</button>
+                                        <button className="btn btn-success" onClick={downloadCSV}>📥 Excel</button>
+                                        <button className="btn btn-danger" onClick={clearData}>🗑️ Borrar</button>
+                                    </div>
+                                    <table className="table">
+                                        <thead><tr><th>Alumno</th><th>Nota</th></tr></thead>
+                                        <tbody>
+                                            {studentResults.map((r,i) => {
+                                                const hits = r.results.filter(x=>x.correct).length;
+                                                return <tr key={i}><td>{r.name}</td><td><span className={`badge ${hits>=Math.ceil(questions.length/2)?'badge-green':'badge-red'}`}>{hits}/{r.results.length}</span></td></tr>
+                                            })}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            ) : (
+                                <div>
+                                    <p>Edición activada...</p>
+                                    <div className="edit-section"><div className="edit-title">1. Caso</div><input className="input" value={caseData.title} onChange={e=>setCaseData({...caseData, title:e.target.value})} /><textarea className="textarea" rows="6" value={caseData.content} onChange={e=>setCaseData({...caseData, content:e.target.value})} /></div>
+                                    <div className="edit-section"><div className="edit-title">2. Preguntas</div>{questions.map((q,i)=><div key={q.id} className="question-editor"><div className="question-editor-header">P{i+1}</div><input className="input" value={q.question} onChange={e=>updateQ(q.id,'question',e.target.value)}/></div>)}</div>
+                                    <div style={{display:'flex', justifyContent:'flex-end', gap:'10px'}}><button className="btn btn-outline" onClick={restoreDefaults}>Restaurar</button><button className="btn btn-success" onClick={saveChanges}>Guardar</button></div>
+                                </div>
+                            )}
                         </div>
                     </div>
                 );
             }
 
-            if (view === 'case' && !submitted) {
+            if(view === 'exam') {
+                if(submitted) {
+                    const lastResult = studentResults[studentResults.length - 1];
+                    const hits = lastResult.results.filter(x=>x.correct).length;
+                    return (
+                        <div className="container"><div className="card" style={{textAlign:'center'}}><h1>Resultados: {hits}/{questions.length}</h1>
+                        <div style={{textAlign:'left', marginTop:'30px'}}>{lastResult.results.map((r,i)=><div key={i} className="question-card" style={{borderColor:r.correct?'#86efac':'#fca5a5'}}><p><strong>{i+1}. {r.question}</strong></p><p>Tu respuesta: {r.userAnswer.toString()}</p>{r.correct?<p className="correct-answer">¡Correcto!</p>:<p className="wrong-answer">Incorrecto. {r.feedback}</p>}</div>)}</div>
+                        <button className="btn btn-primary" onClick={()=>setView('login')}>Salir</button></div></div>
+                    );
+                }
                 return (
-                    <div className="screen-bg">
-                        <div className="container">
-                            <div className="card">
-                                <div className="flex-between" style={{marginBottom: '24px'}}>
-                                    <div className="student-info">
-                                        <div className="student-label">Estudiante</div>
-                                        <div className="student-name">{currentStudent}</div>
-                                    </div>
-                                    <button onClick={resetApp} className="btn btn-gray">Salir</button>
-                                </div>
-                                <div className="case-box">
-                                    <h1 className="case-title">{caseData.title}</h1>
-                                    <p className="case-content">{caseData.content}</p>
-                                </div>
-                                <div className="space-y">
-                                    <h2 className="section-title">Preguntas de Análisis</h2>
-                                    {questions.map((q, idx) => (
-                                        <div key={q.id} className="question-box">
-                                            <p className="question-text">{idx + 1}. {q.question}</p>
-                                            {q.type === 'multiple' && (
-                                                <div className="space-y" style={{gap: '8px'}}>
-                                                    {q.options.map((option, optIdx) => (
-                                                        <label key={optIdx} className="option">
-                                                            <input type="radio" name={`q${q.id}`} value={optIdx} checked={answers[q.id] === optIdx} onChange={(e) => handleAnswerChange(q.id, parseInt(e.target.value))} className="radio" />
-                                                            <span>{option}</span>
-                                                        </label>
-                                                    ))}
-                                                </div>
-                                            )}
-                                            {q.type === 'truefalse' && (
-                                                <div className="space-y" style={{gap: '8px'}}>
-                                                    <label className="option">
-                                                        <input type="radio" name={`q${q.id}`} checked={answers[q.id] === true} onChange={() => handleAnswerChange(q.id, true)} className="radio" />
-                                                        <span>Verdadero</span>
-                                                    </label>
-                                                    <label className="option">
-                                                        <input type="radio" name={`q${q.id}`} checked={answers[q.id] === false} onChange={() => handleAnswerChange(q.id, false)} className="radio" />
-                                                        <span>Falso</span>
-                                                    </label>
-                                                </div>
-                                            )}
-                                            {q.type === 'short' && (
-                                                <textarea value={answers[q.id] || ''} onChange={(e) => handleAnswerChange(q.id, e.target.value)} placeholder="Escribe tu respuesta aquí..." rows={3} className="textarea" />
-                                            )}
-                                        </div>
-                                    ))}
-                                    <button onClick={handleSubmit} className="btn btn-success" style={{width: '100%', padding: '16px'}}>Enviar Respuestas</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <div className="container"><div className="card"><h2 style={{color:'#2563eb', marginBottom:'15px'}}>{caseData.title}</h2><div className="case-content">{caseData.content}</div><h3>Cuestionario</h3>{questions.map((q,i)=><div key={q.id} className="question-card"><p style={{fontWeight:'bold'}}>{i+1}. {q.question}</p>
+                    {q.type==='multiple'&&q.options.map((opt,idx)=><label key={idx} className="option-label"><input type="radio" name={`q${q.id}`} onChange={()=>setAnswers({...answers,[q.id]:idx})}/> {opt}</label>)}
+                    {q.type==='truefalse'&&<><label className="option-label"><input type="radio" name={`q${q.id}`} onChange={()=>setAnswers({...answers,[q.id]:true})}/> V</label><label className="option-label"><input type="radio" name={`q${q.id}`} onChange={()=>setAnswers({...answers,[q.id]:false})}/> F</label></>}
+                    {q.type==='short'&&<textarea className="textarea" rows="2" onChange={e=>setAnswers({...answers,[q.id]:e.target.value})} placeholder="Respuesta..."/>}
+                    </div>)}<button className="btn btn-success" style={{width:'100%'}} onClick={submitExam}>Enviar</button></div></div>
                 );
             }
-
-            if (submitted && results) {
-                const correctCount = results.filter(r => r.correct).length;
-                const totalCount = results.length;
-                const percentage = ((correctCount / totalCount) * 100).toFixed(0);
-                return (
-                    <div className="screen-bg">
-                        <div className="container">
-                            <div className="card">
-                                <h1 className="title">¡Resultados!</h1>
-                                <p className="subtitle">{currentStudent}</p>
-                                <div className="result-box">
-                                    <p className="result-score">{correctCount}/{totalCount}</p>
-                                    <p className="result-label">Puntaje Final: {percentage}%</p>
-                                </div>
-                                <div className="space-y">
-                                    {results.map((result, idx) => (
-                                        <div key={idx} className={`answer-box ${result.correct ? 'answer-correct' : 'answer-incorrect'}`}>
-                                            <div className="answer-header">
-                                                <p style={{fontWeight: 600, color: '#1f2937', flex: 1}}>{idx + 1}. {result.question}</p>
-                                                <span className={`answer-status ${result.correct ? 'status-correct' : 'status-incorrect'}`}>{result.correct ? '✓ Correcto' : '✗ Incorrecto'}</span>
-                                            </div>
-                                            <div style={{fontSize: '14px'}}>
-                                                <p style={{color: '#374151', marginBottom: '8px'}}><strong>Tu respuesta:</strong> {typeof result.userAnswer === 'boolean' ? (result.userAnswer ? 'Verdadero' : 'Falso') : result.userAnswer}</p>
-                                                {!result.correct && (<p style={{color: '#374151', marginBottom: '8px'}}><strong>Respuesta correcta:</strong> {result.correctAnswer}</p>)}
-                                                <p className="feedback">💡 {result.feedback}</p>
-                                            </div>
-                                        </div>
-                                    ))}
-                                </div>
-                                <button onClick={resetApp} className="btn btn-primary" style={{width: '100%', padding: '16px', marginTop: '32px'}}>Finalizar</button>
-                            </div>
-                        </div>
-                    </div>
-                );
-            }
-            return null;
         };
 
-        ReactDOM.render(<App />, document.getElementById('root'));
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
     </script>
 </body>
 </html>

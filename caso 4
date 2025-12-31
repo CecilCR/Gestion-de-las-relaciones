@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Caso 3: Almacenes Futura - Evaluación Certificada</title>
+    
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: system-ui, -apple-system, 'Segoe UI', sans-serif; background: #f3f4f6; color: #1f2937; padding-bottom: 50px; }
+        .container { max-width: 900px; margin: 0 auto; padding: 20px; }
+        .card { background: white; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); padding: 30px; margin-bottom: 20px; }
+        
+        /* Botones y UI */
+        .btn { padding: 10px 20px; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; font-size: 14px; transition: all 0.2s; }
+        .btn:hover { filter: brightness(1.1); transform: translateY(-1px); }
+        .btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+        .btn-primary { background: #3b82f6; color: white; }
+        .btn-secondary { background: #8b5cf6; color: white; }
+        .btn-success { background: #22c55e; color: white; }
+        .btn-danger { background: #ef4444; color: white; }
+        .btn-outline { background: white; border: 1px solid #d1d5db; color: #374151; }
+        
+        /* Inputs */
+        .input, .textarea { width: 100%; padding: 12px; border: 1px solid #d1d5db; border-radius: 8px; font-size: 14px; margin-bottom: 12px; transition: border 0.2s; }
+        .input:focus, .textarea:focus { outline: none; border-color: #3b82f6; ring: 2px solid #93c5fd; }
+        
+        /* Layout Específico */
+        .login-screen { min-height: 100vh; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #1e1b4b, #3b82f6); padding: 20px; }
+        .case-content { line-height: 1.7; color: #334155; white-space: pre-line; padding: 25px; background: #eff6ff; border-radius: 8px; border-left: 5px solid #2563eb; font-size: 15px; margin-bottom: 30px; }
+        
+        /* Preguntas */
+        .question-card { margin-bottom: 25px; padding: 20px; border: 1px solid #e5e7eb; border-radius: 10px; background: #fff; }
+        .option-label { display: flex; align-items: center; gap: 12px; padding: 12px; border: 1px solid #e5e7eb; border-radius: 8px; margin-bottom: 10px; cursor: pointer; transition: all 0.2s; }
+        .option-label:hover { background: #f8fafc; border-color: #cbd5e1; }
+        .option-label.selected { background: #eff6ff; border-color: #3b82f6; font-weight: 500; }
+        
+        /* Resultados */
+        .result-box { background: #f0fdf4; border: 1px solid #bbf7d0; padding: 20px; border-radius: 10px; text-align: center; margin-bottom: 20px; }
+        .code-display { font-family: monospace; font-size: 24px; letter-spacing: 2px; background: #1f2937; color: #fbbf24; padding: 15px; border-radius: 8px; margin: 15px 0; font-weight: bold; cursor: pointer; }
+        
+        /* Utilidades */
+        .badge { padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 700; text-transform: uppercase; }
+        .badge-green { background: #dcfce7; color: #166534; }
+        .badge-red { background: #fee2e2; color: #991b1b; }
+        .anim-fade { animation: fadeIn 0.5s ease-in; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+    
+    <script type="text/babel">
+        const { useState, useEffect, useMemo } = React;
+
+        // --- 🔐 CONFIGURACIÓN DOCENTE ---
+        const CONFIG = {
+            studentPass: "EXITO",     // Contraseña para alumnos
+            adminPass: "profesor123", // ⚠️ ¡CAMBIA ESTO ANTES DE USAR!
+            salt: "CLAVESECRETA_V2"   // Semilla para encriptación simple
+        };
+
+        // --- DATOS DEL CASO ---
+        const DEFAULT_CASE = {
+            title: "Caso 3: Almacenes Futura - VUCA y Sistemas",
+            content: "1. EL CONTEXTO (Input)\n'Almacenes Futura' dominó el mercado por 30 años. Su modelo era un 'Sistema Cerrado' perfecto: proveedores fijos, procesos rígidos y ventas masivas.\n\n2. EL QUIEBRE (Entorno VUCA)\nHace 12 meses, competidores digitales rompieron el mercado. La gerencia detecta:\n- Volatilidad: Precios cambian por hora.\n- Ambigüedad: No saben si la caída de ventas es por precio o mala atención.\n\n3. EL CONFLICTO (Caja Negra)\nSe invirtió en IA, pero:\n- La Generación X boicotea el sistema por miedo.\n- Los Centennials renuncian por la rigidez jerárquica.\n\n4. EL DESAFÍO\nEl CEO debe transformar la empresa en un 'Sistema Abierto', integrando la tecnología (Hard) con la cultura (Soft) para sobrevivir."
+        };
+
+        const DEFAULT_QUESTIONS = [
+            { id: 1, type: 'multiple', question: 'La falta de claridad sobre si la caída es por precios o atención (causa-efecto confusa) es un ejemplo de:', options: ['Volatilidad', 'Incertidumbre', 'Complejidad', 'Ambigüedad'], correct: 3, feedback: 'Ambigüedad: Falta de claridad en la relación causa-efecto.' },
+            { id: 2, type: 'multiple', question: 'Almacenes Futura operaba ignorando el entorno externo, centrado solo en eficiencia interna. Esto es un:', options: ['Sistema Abierto', 'Sistema Cerrado', 'Subsistema Técnico', 'Entorno General'], correct: 1, feedback: 'Sistema Cerrado: Poca o nula interacción con el ambiente externo.' },
+            { id: 3, type: 'multiple', question: 'La resistencia de la Gen X y la renuncia de Centennials son problemas del:', options: ['Subsistema Técnico (Maquinaria)', 'Subsistema Psicosocial (Cultura/Gente)', 'Subsistema Estructural (Normas)', 'Entorno Específico (Clientes)'], correct: 1, feedback: 'Subsistema Psicosocial: Abarca el comportamiento individual, motivación y dinámicas de grupo.' },
+            { id: 4, type: 'truefalse', question: 'V/F: La volatilidad se refiere a la velocidad y magnitud de los cambios en el mercado (ej. precios cambiantes).', options: [], correct: true, feedback: 'Verdadero. Volatilidad es inestabilidad y velocidad de cambio.' },
+            { id: 5, type: 'short', question: 'Mencione UNA estrategia clave para integrar a la Gen X y Centennials (1-2 palabras):', correctAnswers: ['mentoring', 'mentoría', 'capacitación', 'reskilling', 'equipos mixtos', 'agilidad', 'flexibilidad', 'liderazgo', 'integración'], feedback: 'Respuestas válidas: Mentoring, Capacitación, Reskilling, Flexibilidad.' }
+        ];
+
+        // --- FUNCIONES DE SEGURIDAD (HASH) ---
+        // Genera un código que parece complejo pero podemos validar
+        const generateAuthCode = (name, score, max) => {
+            const cleanName = name.replace(/\s/g, '').toUpperCase().substring(0, 4);
+            const dateCode = new Date().getDate(); // Día del mes
+            // Fórmula simple: Nombre + Nota + Semilla + Día
+            // En un entorno real usaríamos SHA-256, aquí ofuscamos con Base64
+            const raw = `${cleanName}-${score}/${max}-${CONFIG.salt}`;
+            return btoa(raw).substring(0, 12).toUpperCase(); // Retorna primeros 12 caracteres
+        };
+
+        const validateCode = (codeInput) => {
+            // Esta función es para el profesor. Como usamos btoa (base64) recortado, 
+            // la validación real exacta requiere el string completo.
+            // Para este ejemplo pedagógico, simularemos validación visual o reconstrucción.
+            // NOTA: Para validación 100% segura se requiere backend. 
+            // Aquí validamos estructura básica.
+            return codeInput.length > 5; 
+        };
+
+        // --- COMPONENTE PRINCIPAL ---
+        const App = () => {
+            const [view, setView] = useState('login');
+            const [user, setUser] = useState({ name: '', role: '' });
+            
+            // Estado del Examen
+            const [shuffledQuestions, setShuffledQuestions] = useState([]);
+            const [answers, setAnswers] = useState({});
+            const [result, setResult] = useState(null);
+            
+            // Estado Admin
+            const [adminPassInput, setAdminPassInput] = useState('');
+            const [validationInput, setValidationInput] = useState('');
+            const [allResults, setAllResults] = useState([]);
+
+            // Cargar datos
+            useEffect(() => {
+                const stored = localStorage.getItem('results_c3_v2');
+                if (stored) setAllResults(JSON.parse(stored));
+            }, []);
+
+            // --- LÓGICA DEL ALUMNO ---
+            const startExam = (name, code) => {
+                if(code.toUpperCase() !== CONFIG.studentPass) return alert("Código de sesión incorrecto");
+                if(!name.trim()) return alert("Ingresa tu nombre");
+                
+                setUser({ name, role: 'student' });
+                
+                // 🔀 ALEATORIZACIÓN (SHUFFLE)
+                // Mezclamos preguntas y opciones para evitar copia
+                const qCopy = DEFAULT_QUESTIONS.map(q => {
+                    if(q.type === 'multiple') {
+                        // Creamos un array de objetos {txt, originalIndex}
+                        const optsWithIdx = q.options.map((o, i) => ({txt: o, idx: i}));
+                        // Mezclamos
+                        optsWithIdx.sort(() => Math.random() - 0.5);
+                        return { ...q, _shuffledOpts: optsWithIdx };
+                    }
+                    return q;
+                }).sort(() => Math.random() - 0.5);
+                
+                setShuffledQuestions(qCopy);
+                setView('exam');
+            };
+
+            const submitExam = () => {
+                if(shuffledQuestions.some(q => answers[q.id] === undefined)) {
+                    if(!confirm("Hay preguntas sin responder. ¿Enviar igual?")) return;
+                }
+
+                let score = 0;
+                const detailedResults = shuffledQuestions.map(q => {
+                    const userAns = answers[q.id];
+                    let isCorrect = false;
+
+                    if (q.type === 'multiple') {
+                        // userAns es el índice de la opción mezclada
+                        // Necesitamos ver si el índice original de esa opción era el correcto
+                        const selectedOptObj = q._shuffledOpts[userAns];
+                        if (selectedOptObj && selectedOptObj.idx === q.correct) isCorrect = true;
+                    } 
+                    else if (q.type === 'truefalse') {
+                        isCorrect = userAns === q.correct;
+                    } 
+                    else if (q.type === 'short') {
+                        // Normalización para la pregunta abierta (quita acentos, minúsculas)
+                        const cleanAns = (userAns || '').toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+                        isCorrect = q.correctAnswers.some(a => cleanAns.includes(a.normalize("NFD").replace(/[\u0300-\u036f]/g, "")));
+                    }
+
+                    if(isCorrect) score++;
+                    return { ...q, isCorrect, userAns };
+                });
+
+                const finalCode = generateAuthCode(user.name, score, DEFAULT_QUESTIONS.length);
+                
+                const finalResult = {
+                    date: new Date().toLocaleString(),
+                    name: user.name,
+                    score,
+                    total: DEFAULT_QUESTIONS.length,
+                    code: finalCode,
+                    details: detailedResults
+                };
+
+                setResult(finalResult);
+                
+                // Guardar localmente
+                const newHistory = [...allResults, finalResult];
+                setAllResults(newHistory);
+                localStorage.setItem('results_c3_v2', JSON.stringify(newHistory));
+                
+                setView('results');
+            };
+
+            // --- LÓGICA DE VISTAS ---
+
+            // 1. LOGIN
+            if(view === 'login') {
+                return (
+                    <div className="login-screen">
+                        <div className="card" style={{maxWidth:'400px', width:'100%'}}>
+                            <div style={{textAlign:'center', marginBottom:'20px'}}>
+                                <i className="ri-school-line" style={{fontSize:'3rem', color:'#3b82f6'}}></i>
+                                <h2 style={{marginTop:'10px'}}>Acceso Evaluación</h2>
+                                <p style={{color:'#6b7280', fontSize:'14px'}}>Caso 3: Almacenes Futura</p>
+                            </div>
+
+                            <form onSubmit={e => { e.preventDefault(); startExam(e.target.student.value, e.target.code.value); }}>
+                                <label className="badge badge-green" style={{marginBottom:'5px', display:'inline-block'}}>Estudiante</label>
+                                <input name="student" className="input" placeholder="Nombre Completo" required />
+                                <input name="code" className="input" placeholder="Código de Sesión (EXITO)" required />
+                                <button className="btn btn-primary" style={{width:'100%', justifyContent:'center'}}>Comenzar Examen</button>
+                            </form>
+
+                            <div style={{marginTop:'30px', paddingTop:'20px', borderTop:'1px solid #f3f4f6'}}>
+                                <label className="badge badge-red" style={{marginBottom:'5px', display:'inline-block'}}>Área Docente</label>
+                                <div style={{display:'flex', gap:'5px'}}>
+                                    <input type="password" className="input" style={{marginBottom:0}} placeholder="Contraseña Admin" value={adminPassInput} onChange={e=>setAdminPassInput(e.target.value)} />
+                                    <button className="btn btn-secondary" onClick={() => adminPassInput === CONFIG.adminPass ? setView('admin') : alert('Acceso Denegado')}>Entrar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                );
+            }
+
+            // 2. EXAMEN
+            if(view === 'exam') {
+                return (
+                    <div className="container anim-fade">
+                        <div className="card">
+                            <div style={{display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:'15px'}}>
+                                <h2 style={{color:'#2563eb'}}><i className="ri-book-open-line"></i> {DEFAULT_CASE.title}</h2>
+                                <span className="badge badge-green">{user.name}</span>
+                            </div>
+                            <div className="case-content">
+                                <h3 style={{fontSize:'16px', marginBottom:'10px'}}>📖 Lectura del Caso</h3>
+                                {DEFAULT_CASE.content}
+                            </div>
+                            
+                            <h3 style={{marginBottom:'20px', borderBottom:'2px solid #e5e7eb', paddingBottom:'10px'}}>📝 Cuestionario</h3>
+                            
+                            {shuffledQuestions.map((q, idx) => (
+                                <div key={q.id} className="question-card">
+                                    <p style={{fontWeight:'bold', marginBottom:'10px', fontSize:'16px'}}>{idx + 1}. {q.question}</p>
+                                    
+                                    {q.type === 'multiple' && (
+                                        <div style={{display:'flex', flexDirection:'column', gap:'8px'}}>
+                                            {q._shuffledOpts.map((opt, i) => (
+                                                <div key={i} 
+                                                     className={`option-label ${answers[q.id] === i ? 'selected' : ''}`}
+                                                     onClick={() => setAnswers({...answers, [q.id]: i})}>
+                                                    <div style={{width:'20px', height:'20px', borderRadius:'50%', border:'2px solid #cbd5e1', display:'flex', alignItems:'center', justifyContent:'center', marginRight:'10px', background: answers[q.id] === i ? '#3b82f6' : 'transparent'}}>
+                                                        {answers[q.id] === i && <div style={{width:'8px', height:'8px', background:'white', borderRadius:'50%'}}></div>}
+                                                    </div>
+                                                    {opt.txt}
+                                                </div>
+                                            ))}
+                                        </div>
+                                    )}
+
+                                    {q.type === 'truefalse' && (
+                                        <div style={{display:'flex', gap:'15px'}}>
+                                            <button className={`btn ${answers[q.id] === true ? 'btn-primary' : 'btn-outline'}`} onClick={()=>setAnswers({...answers, [q.id]: true})}>Verdadero</button>
+                                            <button className={`btn ${answers[q.id] === false ? 'btn-primary' : 'btn-outline'}`} onClick={()=>setAnswers({...answers, [q.id]: false})}>Falso</button>
+                                        </div>
+                                    )}
+
+                                    {q.type === 'short' && (
+                                        <input className="input" placeholder="Escribe tu respuesta clave..." onChange={e => setAnswers({...answers, [q.id]: e.target.value})} />
+                                    )}
+                                </div>
+                            ))}
+
+                            <button className="btn btn-success" style={{width:'100%', padding:'15px', fontSize:'16px', justifyContent:'center'}} onClick={submitExam}>
+                                <i className="ri-send-plane-fill"></i> Finalizar y Obtener Código
+                            </button>
+                        </div>
+                    </div>
+                );
+            }
+
+            // 3. RESULTADOS (ALUMNO)
+            if(view === 'results' && result) {
+                return (
+                    <div className="container anim-fade">
+                        <div className="card" style={{textAlign:'center', borderTop:'5px solid #22c55e'}}>
+                            <i className="ri-checkbox-circle-fill" style={{fontSize:'4rem', color:'#22c55e'}}></i>
+                            <h1>Examen Finalizado</h1>
+                            <p style={{color:'#6b7280'}}>Has completado el caso de Almacenes Futura</p>
+
+                            <div className="result-box" style={{marginTop:'20px'}}>
+                                <p style={{fontSize:'14px', textTransform:'uppercase', letterSpacing:'1px'}}>Tu Calificación</p>
+                                <div style={{fontSize:'3rem', fontWeight:'bold', color:'#1f2937'}}>
+                                    {result.score} <span style={{fontSize:'1.5rem', color:'#9ca3af'}}>/ {result.total}</span>
+                                </div>
+                            </div>
+
+                            <div style={{background:'#fff7ed', padding:'20px', borderRadius:'8px', border:'2px dashed #fb923c'}}>
+                                <p style={{fontWeight:'bold', color:'#9a3412'}}>🔐 CÓDIGO DE VERIFICACIÓN</p>
+                                <p style={{fontSize:'13px', marginBottom:'10px'}}>Envía este código al profesor o toma una captura de pantalla.</p>
+                                <div className="code-display" onClick={() => {navigator.clipboard.writeText(result.code); alert('Código copiado');}}>
+                                    {result.code} <i className="ri-file-copy-line" style={{fontSize:'16px', marginLeft:'10px', opacity:0.5}}></i>
+                                </div>
+                            </div>
+
+                            <div style={{textAlign:'left', marginTop:'30px'}}>
+                                <h3 style={{marginBottom:'15px'}}>Retroalimentación:</h3>
+                                {result.details.map((r, i) => (
+                                    <div key={i} style={{padding:'10px', borderBottom:'1px solid #f3f4f6'}}>
+                                        <div style={{display:'flex', alignItems:'center', gap:'10px'}}>
+                                            <i className={r.isCorrect ? "ri-check-line" : "ri-close-line"} style={{color: r.isCorrect?'green':'red', fontSize:'1.2rem'}}></i>
+                                            <strong>Pregunta {i+1}</strong>
+                                        </div>
+                                        {!r.isCorrect && <p style={{marginLeft:'28px', fontSize:'14px', color:'#6b7280', fontStyle:'italic'}}>{r.feedback}</p>}
+                                    </div>
+                                ))}
+                            </div>
+
+                            <button className="btn btn-outline" style={{marginTop:'20px'}} onClick={() => setView('login')}>Salir</button>
+                        </div>
+                    </div>
+                );
+            }
+
+            // 4. ADMIN PANEL (PROFESOR)
+            if(view === 'admin') {
+                const downloadCSV = () => {
+                    const csvContent = "data:text/csv;charset=utf-8," + 
+                        "Fecha,Alumno,Nota,Total,CodigoValidacion\n" +
+                        allResults.map(r => `${r.date},${r.name},${r.score},${r.total},${r.code}`).join("\n");
+                    const encodedUri = encodeURI(csvContent);
+                    const link = document.createElement("a");
+                    link.setAttribute("href", encodedUri);
+                    link.setAttribute("download", "notas_caso3.csv");
+                    document.body.appendChild(link);
+                    link.click();
+                };
+
+                return (
+                    <div className="container anim-fade">
+                        <div className="card">
+                            <div style={{display:'flex', justifyContent:'space-between', alignItems:'center'}}>
+                                <h1>👨‍🏫 Panel Docente</h1>
+                                <button className="btn btn-outline" onClick={() => setView('login')}>Cerrar Sesión</button>
+                            </div>
+                            
+                            <div style={{display:'grid', gridTemplateColumns:'1fr 1fr', gap:'20px', margin:'20px 0'}}>
+                                <div style={{padding:'20px', background:'#f0f9ff', borderRadius:'8px'}}>
+                                    <h3>📊 Reporte</h3>
+                                    <p style={{marginBottom:'10px'}}>Total intentos guardados: <strong>{allResults.length}</strong></p>
+                                    <button className="btn btn-success" onClick={downloadCSV}><i className="ri-file-excel-2-line"></i> Descargar Excel (CSV)</button>
+                                    <button className="btn btn-danger" style={{marginLeft:'10px'}} onClick={() => {if(confirm("¿Borrar todo?")) {localStorage.removeItem('results_c3_v2'); setAllResults([]);}}}>Borrar Todo</button>
+                                </div>
+                                <div style={{padding:'20px', background:'#fff7ed', borderRadius:'8px'}}>
+                                    <h3>🔍 Validador de Códigos</h3>
+                                    <p style={{fontSize:'12px', color:'#666'}}>Pega aquí el código que te envió el alumno.</p>
+                                    <div style={{display:'flex', gap:'5px', marginTop:'5px'}}>
+                                        <input className="input" style={{marginBottom:0}} placeholder="Pegar código..." value={validationInput} onChange={e=>setValidationInput(e.target.value)} />
+                                        <button className="btn btn-primary" onClick={() => {
+                                            // Decodificación simple para demostración
+                                            try {
+                                                // Nota: Esto es solo ilustrativo. En prod real usaríamos crypto verify.
+                                                // Aquí solo verificamos que sea Base64 válido.
+                                                atob(validationInput); 
+                                                alert("✅ Código con formato válido. \n(Verifica que el nombre coincida en tu Excel)");
+                                            } catch(e) {
+                                                alert("❌ Código inválido o corrupto.");
+                                            }
+                                        }}>Verificar</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <h3>Historial Reciente (Local)</h3>
+                            <div style={{overflowX:'auto'}}>
+                                <table style={{width:'100%', borderCollapse:'collapse', marginTop:'10px'}}>
+                                    <thead>
+                                        <tr style={{background:'#f3f4f6', textAlign:'left'}}>
+                                            <th style={{padding:'10px'}}>Fecha</th>
+                                            <th style={{padding:'10px'}}>Alumno</th>
+                                            <th style={{padding:'10px'}}>Nota</th>
+                                            <th style={{padding:'10px'}}>Código</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {allResults.slice().reverse().map((r, i) => (
+                                            <tr key={i} style={{borderBottom:'1px solid #e5e7eb'}}>
+                                                <td style={{padding:'10px', fontSize:'13px'}}>{r.date}</td>
+                                                <td style={{padding:'10px', fontWeight:'bold'}}>{r.name}</td>
+                                                <td style={{padding:'10px'}}><span className={`badge ${r.score >= 3 ? 'badge-green' : 'badge-red'}`}>{r.score}/{r.total}</span></td>
+                                                <td style={{padding:'10px', fontFamily:'monospace', fontSize:'12px'}}>{r.code}</td>
+                                            </tr>
+                                        ))}
+                                        {allResults.length === 0 && <tr><td colSpan="4" style={{padding:'20px', textAlign:'center', color:'#999'}}>No hay registros en este dispositivo.</td></tr>}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                );
+            }
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>

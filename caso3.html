@@ -1,9 +1,9 @@
-      <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Caso 3: Almacenes Futura</title>
+    <title>Caso 3: Almacenes Futura en la Tormenta</title>
     
     <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
@@ -52,12 +52,12 @@
         const { useState, useEffect } = React;
 
         // --- 🔐 CONFIGURACIÓN DE SEGURIDAD (CONTRASEÑA) ---
-        const STUDENT_PASSWORD = "EXITO"; // <--- ¡CAMBIA ESTO ANTES DE LA CLASE!
+        const STUDENT_PASSWORD = "EXITO"; // <--- CAMBIA ESTO SI DESEAS
 
-        // --- DATOS DEL CASO ---
+        // --- DATOS DEL CASO ACTUALIZADO ---
         const DEFAULT_CASE = {
-            title: "Caso: El Dilema de Almacenes Futura",
-            content: "Contexto: \"Almacenes Futura\" es una cadena minorista con 30 años en el mercado. Tradicionalmente, ha operado como un sistema estable: recibe productos de proveedores (entrada), los organiza en tiendas físicas (proceso) y los vende al público (salida). Sin embargo, en el último año, el ambiente externo específico ha cambiado: han aparecido tres nuevas plataformas de comercio electrónico que entregan en menos de 2 horas.\n\nEl Desafío: La gerencia nota que el entorno se ha vuelto volátil (los precios de la competencia cambian por algoritmos cada hora) y complejo (deben cumplir con nuevas leyes de protección de datos y, al mismo tiempo, gestionar una cadena de suministro global (afectada por crisis logísticas).\n\nInternamente, la empresa sufre una crisis de identidad. Los directivos han comprado software de Inteligencia Artificial de última generación (recurso tecnológico), pero la capacitación brindada al personal fue breve y superficial. Peter Drucker diría que los recursos están \"inertes\". Los empleados de la Generación X temen ser reemplazados, mientras que los Centennials que acaban de ingresar se sienten frustrados por la falta de flexibilidad laboral y la estructura jerárquica rígida. El CEO debe decidir si sigue operando como un sistema cerrado o si se abre a la transmutación organizacional."
+            title: "Caso 3: Almacenes Futura en la Tormenta",
+            content: "1. El Contexto (El Sistema)\n\"Almacenes Futura\" es un gigante minorista con 30 años de éxito. Históricamente, funcionó como un reloj suizo: recibía productos de grandes proveedores (Entrada), los distribuía en tiendas físicas estandarizadas (Proceso) y vendía masivamente al público (Salida). Era un modelo predecible y eficiente.\n\n2. El Quiebre (El Entorno VUCA)\nSin embargo, en los últimos 12 meses, el \"Entorno Específico\" se volvió hostil. Han aparecido competidores digitales que entregan en 2 horas, alterando los hábitos de consumo. La gerencia detecta dos amenazas críticas:\n\n- Volatilidad extrema: Los precios de la competencia cambian automáticamente cada hora mediante algoritmos.\n- Complejidad: Nuevas leyes de protección de datos bloquean sus campañas de marketing antiguas, y la crisis logística global ha roto su cadena de suministro.\n\n3. El Conflicto Interno (Personas y Tecnología)\nDentro de la empresa, el sistema \"humano\" está fallando. La directiva invirtió millones en una Inteligencia Artificial (recurso tecnológico), pero la implementación fue un desastre.\n\n- Los empleados de la Generación X (y algunos Boomers) boicotean el sistema por miedo a ser reemplazados.\n- Los nuevos talentos Centennials (Gen Z) están renunciando porque encuentran la estructura jerárquica demasiado lenta y rígida.\n\nComo diría Peter Drucker, los recursos están \"inertes\": hay tecnología y hay gente, pero no producen valor juntos.\n\n4. El Desafío del CEO\nEl Directorio exige resultados inmediatos. El CEO enfrenta una encrucijada crítica: ¿Debe mantener su estructura tradicional para intentar recuperar el control (Sistema Cerrado), o debe rediseñar la organización para convertirla en un Sistema Abierto y Ágil, capaz de integrar la tecnología y el talento joven para responder a la velocidad del mercado?"
         };
 
         const DEFAULT_QUESTIONS = [
@@ -84,18 +84,18 @@
             const [editMode, setEditMode] = useState(false);
 
             useEffect(() => {
-                const savedRes = localStorage.getItem('student-results');
+                const savedRes = localStorage.getItem('student-results-c3'); // Clave única para Caso 3
                 if (savedRes) setStudentResults(JSON.parse(savedRes));
-                const savedCase = localStorage.getItem('custom-case');
+                const savedCase = localStorage.getItem('custom-case-c3');
                 if (savedCase) setCaseData(JSON.parse(savedCase));
-                const savedQs = localStorage.getItem('custom-questions');
+                const savedQs = localStorage.getItem('custom-questions-c3');
                 if (savedQs) setQuestions(JSON.parse(savedQs));
             }, []);
 
             // --- FUNCIONES ---
             const saveChanges = () => {
-                localStorage.setItem('custom-case', JSON.stringify(caseData));
-                localStorage.setItem('custom-questions', JSON.stringify(questions));
+                localStorage.setItem('custom-case-c3', JSON.stringify(caseData));
+                localStorage.setItem('custom-questions-c3', JSON.stringify(questions));
                 setEditMode(false);
                 alert('✅ Cambios guardados.');
             };
@@ -104,8 +104,8 @@
                 if(confirm('¿Restaurar todo?')) {
                     setCaseData(DEFAULT_CASE);
                     setQuestions(DEFAULT_QUESTIONS);
-                    localStorage.removeItem('custom-case');
-                    localStorage.removeItem('custom-questions');
+                    localStorage.removeItem('custom-case-c3');
+                    localStorage.removeItem('custom-questions-c3');
                     setEditMode(false);
                 }
             };
@@ -113,7 +113,7 @@
             const clearData = () => {
                 if(confirm('¿Borrar notas?')) {
                     setStudentResults([]);
-                    localStorage.removeItem('student-results');
+                    localStorage.removeItem('student-results-c3');
                 }
             };
 
@@ -134,7 +134,7 @@
                 });
                 const updated = [...studentResults, { name: studentName, date: new Date(), results }];
                 setStudentResults(updated);
-                localStorage.setItem('student-results', JSON.stringify(updated));
+                localStorage.setItem('student-results-c3', JSON.stringify(updated));
                 setSubmitted(true);
             };
 
@@ -142,7 +142,7 @@
                 const csv = "Nombre,Nota\n" + studentResults.map(r => `${r.name},${r.results.filter(x=>x.correct).length}/${r.results.length}`).join('\n');
                 const a = document.createElement('a');
                 a.href = 'data:text/csv;charset=utf-8,' + encodeURI(csv);
-                a.download = 'notas.csv'; a.click();
+                a.download = 'notas_caso3.csv'; a.click();
             };
 
             // --- LÓGICA DE LOGIN CON CONTRASEÑA ---
@@ -160,7 +160,7 @@
                 return (
                     <div className="login-screen">
                         <div className="login-card">
-                            <h2 style={{textAlign:'center', marginBottom:'20px'}}>🔐 Acceso Restringido</h2>
+                            <h2 style={{textAlign:'center', marginBottom:'20px'}}>🔐 Acceso Restringido (Caso 3)</h2>
                             
                             <label className="label">Nombre del Estudiante</label>
                             <input className="input" placeholder="Nombre y Apellido" value={studentName} onChange={e=>setStudentName(e.target.value)} />
@@ -185,7 +185,7 @@
                     <div className="container">
                         <div className="card">
                             <div style={{display:'flex', justifyContent:'space-between', marginBottom:'20px'}}>
-                                <h1>👨‍🏫 Panel Profesor</h1>
+                                <h1>👨‍🏫 Panel Profesor (Caso 3)</h1>
                                 <button className="btn btn-gray" onClick={()=>setView('login')}>Salir</button>
                             </div>
                             
@@ -248,3 +248,4 @@
     </script>
 </body>
 </html>
+
